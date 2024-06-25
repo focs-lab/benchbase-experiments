@@ -1,0 +1,7 @@
+benchbase: /home/users/nus/dws.lim/scratch/benchbase/benchbase
+mysql: /home/users/nus/dws.lim/scratch/mysql/mysql-server-mysql-8.0.37
+mysql-dist: dist-tsan-sampling-base
+mysql-dist-no-tsan: dist-no-tsan
+workspace: /home/users/nus/dws.lim/scratch/benchbase-experiments/workspace
+seed: 1234
+benchmark: tpcc
