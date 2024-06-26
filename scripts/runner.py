@@ -32,8 +32,8 @@ mysqld = Popen([MYSQLD_PATH, "--initialize", f"--basedir={MYSQL_DIST_PATH}", f"-
 MYSQL_PASSWORD = None
 while MYSQL_PASSWORD is None:
     line = mysqld.stdout.readline()
+    print(line.decode().strip())
     if b"password" in line.lower():
-        print(line.decode())
         MYSQL_PASSWORD = line.strip().split(b"root@localhost: ")[1].decode()
 print("[*] MYSQL password:", MYSQL_PASSWORD)
 mysqld.wait()
@@ -42,7 +42,7 @@ print("[+] Starting MYSQL server (no tsan) for database creation.")
 mysqld = Popen([MYSQLD_NO_TSAN_PATH, f"--basedir={MYSQL_DIST_NO_TSAN_PATH}", f"--datadir={MYSQL_DATA_PATH}"], stdout=PIPE, stderr=STDOUT)
 while True:
     line = mysqld.stdout.readline()
-    print(line.decode())
+    print(line.decode().strip())
     if b"mysql.sock" in line.lower() or line == b"":
         break
 
@@ -61,7 +61,7 @@ mysqld = Popen([MYSQLD_PATH, f"--basedir={MYSQL_DIST_PATH}", f"--datadir={MYSQL_
                env={"TSAN_OPTIONS": f"report_bugs=0 detect_deadlocks=0 sampling_rng_seed={RNG_SEED}"})
 while True:
     line = mysqld.stdout.readline()
-    print(line.decode())
+    print(line.decode().strip())
     if b"mysql.sock" in line.lower() or line == b"":
         break
 
@@ -70,7 +70,7 @@ write(vtune, "source /app/apps/oneapi/2022.1.2/setvars.sh")
 write(vtune, "vtune -collect hotspots -knob sampling-mode=sw -target-pid $(pidof mysqld) -run-pass-thru=--no-altstack -duration=300")
 while True:
     line = vtune.stdout.readline()
-    print(line)
+    print(line.decode().strip())
     if b"Collection started" in line or line == b"":
         break
 
@@ -79,9 +79,19 @@ benchbase_execute = run(["java", "-jar", "benchbase.jar", "-b", BENCHMARK_NAME, 
 
 while True:
     line = vtune.stdout.readline()
-    print(line.decode())
+    print(line.decode().strip())
     if b"100 % done" in line or line == b"":
         break
+
+write(vtune, "vtune -report summary -format csv > summary.csv")
+write(vtune, "vtune -report hotspots -format csv > hotspots.csv")
+write(vtune, "echo vtune finished!")
+
+while True:
+    line = vtune.stdout.readline()
+    if b"vtune finished!" in line or line == b"":
+        break
+    print(line.decode().strip())
 
 os.system(f"{MYSQL_PATH} -u root -p1 < shutdown.sql")
 mysqld.wait()
