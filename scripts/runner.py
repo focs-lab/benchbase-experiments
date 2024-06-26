@@ -58,7 +58,7 @@ mysqld.wait()
 
 print("[+] Starting MYSQL server (version under test) for benchmarking.")
 mysqld = Popen([MYSQLD_PATH, f"--basedir={MYSQL_DIST_PATH}", f"--datadir={MYSQL_DATA_PATH}"], stdout=PIPE, stderr=STDOUT,
-               env={"TSAN_OPTIONS": f"report_bugs=0 detect_deadlocks=0 sampling_rng_seed={RNG_SEED}"})
+               env={"TSAN_OPTIONS": f"ignore_noninstrumented_modules=0 report_bugs=0 detect_deadlocks=0 sampling_rng_seed={RNG_SEED}"})
 while True:
     line = mysqld.stdout.readline()
     print(line.decode().strip())

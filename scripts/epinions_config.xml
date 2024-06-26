@@ -12,6 +12,7 @@
     <batchsize>128</batchsize>
     <randomSeed>1234</randomSeed>
 
+    <!-- Scalefactor in Epinions scales by *2000 the number of users-->
     <scalefactor>1</scalefactor>
 
     <!-- The workload -->
@@ -19,30 +20,39 @@
     <works>
         <work>
             <time>300</time>
-            <rate>100000</rate>
-            <weights>15,15,15,25,15,15</weights>
+            <rate>10000000</rate>
+            <weights>10,10,10,10,10,10,10,10,20</weights>
         </work>
     </works>
 
-    <!-- SmallBank Procedures declaration -->
+    <!-- Epinions Procedures Declaration -->
     <transactiontypes>
         <transactiontype>
-            <name>Amalgamate</name>
+            <name>GetReviewItemById</name>
         </transactiontype>
         <transactiontype>
-            <name>Balance</name>
+            <name>GetReviewsByUser</name>
         </transactiontype>
         <transactiontype>
-            <name>DepositChecking</name>
+            <name>GetAverageRatingByTrustedUser</name>
         </transactiontype>
         <transactiontype>
-            <name>SendPayment</name>
+            <name>GetItemAverageRating</name>
         </transactiontype>
         <transactiontype>
-            <name>TransactSavings</name>
+            <name>GetItemReviewsByTrustedUser</name>
         </transactiontype>
         <transactiontype>
-            <name>WriteCheck</name>
+            <name>UpdateUserName</name>
+        </transactiontype>
+        <transactiontype>
+            <name>UpdateItemTitle</name>
+        </transactiontype>
+        <transactiontype>
+            <name>UpdateReviewRating</name>
+        </transactiontype>
+        <transactiontype>
+            <name>UpdateTrustRating</name>
         </transactiontype>
     </transactiontypes>
 </parameters>

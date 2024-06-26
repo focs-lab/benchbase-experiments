@@ -12,6 +12,7 @@
     <batchsize>128</batchsize>
     <randomSeed>1234</randomSeed>
 
+    <!-- Scalefactor in SEATS scales by *1000 the number of customers-->
     <scalefactor>1</scalefactor>
 
     <!-- The workload -->
@@ -19,30 +20,30 @@
     <works>
         <work>
             <time>300</time>
-            <rate>100000</rate>
-            <weights>15,15,15,25,15,15</weights>
+            <rate>1000000</rate>
+            <weights>10, 10, 35, 20, 10, 15</weights>
         </work>
     </works>
 
-    <!-- SmallBank Procedures declaration -->
+    <!-- SEATS Procedures declaration -->
     <transactiontypes>
         <transactiontype>
-            <name>Amalgamate</name>
+            <name>DeleteReservation</name>
         </transactiontype>
         <transactiontype>
-            <name>Balance</name>
+            <name>FindFlights</name>
         </transactiontype>
         <transactiontype>
-            <name>DepositChecking</name>
+            <name>FindOpenSeats</name>
         </transactiontype>
         <transactiontype>
-            <name>SendPayment</name>
+            <name>NewReservation</name>
         </transactiontype>
         <transactiontype>
-            <name>TransactSavings</name>
+            <name>UpdateCustomer</name>
         </transactiontype>
         <transactiontype>
-            <name>WriteCheck</name>
+            <name>UpdateReservation</name>
         </transactiontype>
     </transactiontypes>
 </parameters>

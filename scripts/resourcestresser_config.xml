@@ -12,6 +12,7 @@
     <batchsize>128</batchsize>
     <randomSeed>1234</randomSeed>
 
+    <!-- Scalefactor in ResourceStresser scales by *100 the number of employees -->
     <scalefactor>1</scalefactor>
 
     <!-- The workload -->
@@ -19,30 +20,31 @@
     <works>
         <work>
             <time>300</time>
-            <rate>100000</rate>
-            <weights>15,15,15,25,15,15</weights>
+            <rate>1000000</rate>
+            <weights>16.66,16.66,16.66,16.66,16.66,16.7</weights>
         </work>
     </works>
 
-    <!-- SmallBank Procedures declaration -->
+    <!-- R/S Procedures declaration -->
     <transactiontypes>
         <transactiontype>
-            <name>Amalgamate</name>
+            <name>CPU1</name>
         </transactiontype>
         <transactiontype>
-            <name>Balance</name>
+            <name>CPU2</name>
         </transactiontype>
         <transactiontype>
-            <name>DepositChecking</name>
+            <name>IO1</name>
         </transactiontype>
         <transactiontype>
-            <name>SendPayment</name>
+            <name>IO2</name>
         </transactiontype>
         <transactiontype>
-            <name>TransactSavings</name>
+            <name>Contention1</name>
         </transactiontype>
         <transactiontype>
-            <name>WriteCheck</name>
+            <name>Contention2</name>
         </transactiontype>
     </transactiontypes>
+
 </parameters>

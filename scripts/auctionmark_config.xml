@@ -12,6 +12,7 @@
     <batchsize>128</batchsize>
     <randomSeed>1234</randomSeed>
 
+    <!-- Scalefactor in AuctionMark scales by *1000 the number of customers-->
     <scalefactor>1</scalefactor>
 
     <!-- The workload -->
@@ -19,30 +20,39 @@
     <works>
         <work>
             <time>300</time>
-            <rate>100000</rate>
-            <weights>15,15,15,25,15,15</weights>
+            <rate>10000000</rate>
+            <weights>45, 10, 20, 2, 1, 4, 10, 5, 3</weights>
         </work>
     </works>
 
-    <!-- SmallBank Procedures declaration -->
+    <!-- AuctionMark Procedures declaration -->
     <transactiontypes>
         <transactiontype>
-            <name>Amalgamate</name>
+            <name>GetItem</name>
         </transactiontype>
         <transactiontype>
-            <name>Balance</name>
+            <name>GetUserInfo</name>
         </transactiontype>
         <transactiontype>
-            <name>DepositChecking</name>
+            <name>NewBid</name>
         </transactiontype>
         <transactiontype>
-            <name>SendPayment</name>
+            <name>NewComment</name>
         </transactiontype>
         <transactiontype>
-            <name>TransactSavings</name>
+            <name>NewCommentResponse</name>
         </transactiontype>
         <transactiontype>
-            <name>WriteCheck</name>
+            <name>NewFeedback</name>
+        </transactiontype>
+        <transactiontype>
+            <name>NewItem</name>
+        </transactiontype>
+        <transactiontype>
+            <name>NewPurchase</name>
+        </transactiontype>
+        <transactiontype>
+            <name>UpdateItem</name>
         </transactiontype>
     </transactiontypes>
 </parameters>
