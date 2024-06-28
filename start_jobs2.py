@@ -6,7 +6,7 @@ import yaml
 TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "scripts")
 EXPERIMENTS_DIR = os.path.join(os.getcwd(), sys.argv[1])
 
-SEED_OFFSET = 1234
+SEED_OFFSET = 5678
 
 TIME = 3600
 
@@ -17,10 +17,10 @@ benchmarks = [
     "sibench",
     "smallbank",
     "tatp",
-    "tpcc",
+    # "tpcc",
     "twitter",
     "voter",
-    "wikipedia",
+    # "wikipedia",
     "ycsb",
 ]
 
