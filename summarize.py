@@ -22,7 +22,7 @@ tsans = [
 
 benchmarks = [
     "auctionmark",
-    "chbenchmark",
+    # "chbenchmark",
     "epinions",
     "resourcestresser",
     "seats",

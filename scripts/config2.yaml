@@ -1,7 +1,13 @@
 benchbase: /home/users/nus/dws.lim/scratch/benchbase/benchbase
 mysql: /home/users/nus/dws.lim/scratch/mysql/mysql-server-mysql-8.0.37
-mysql-dist: dist-tsan-sampling-uclocks
-mysql-dist-no-tsan: dist-no-tsan
+mysql-dists:
+  - no-tsan
+  - tsan-base
+  - tsan-sampling-base
+  - tsan-sampling-uclocks
+  - tsan-sampling-ol
+  - tsan-sampling-uclocks-mea
+  - tsan-sampling-ol-mea
 workspace: /home/users/nus/dws.lim/scratch/benchbase-experiments/workspace
 seed: 1234
 benchmark: epinions

@@ -19,8 +19,8 @@
     <terminals>60</terminals>
     <works>
         <work>
-            <time>300</time>
-            <rate>1000000</rate>
+            <time>3600</time>
+            <rate>10000000</rate>
             <weights>10, 10, 35, 20, 10, 15</weights>
         </work>
     </works>
