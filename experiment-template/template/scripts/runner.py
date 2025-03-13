@@ -27,6 +27,7 @@ MYSQL_DATA_PATH = os.path.join(WORKSPACE.name, "mysql-data")
 
 RNG_SEED = CONFIG["seed"]
 REPORT_BUGS = CONFIG["report-bugs"]
+WARMUP = int(CONFIG["warmup"])
 DURATION = int(CONFIG["duration"])
 
 print("[+] Initializing MYSQL data.")
@@ -78,7 +79,7 @@ while True:
 # Now we dont want to allow so many connections. Reset it to the default (151)
 os.system(f"{MYSQL_PATH} -u root -p1 < reset_max_conns.sql")
 
-benchbase_execute = run(["timeout", str(DURATION + 600), "java", "-jar", "benchbase.jar", "-b", benchmark_parameter, "-c", BB_CONFIG_PATH, "--execute=true", "-d", CWD],
+benchbase_execute = run(["timeout", str(DURATION + WARMUP*3 + 1800), "java", "-jar", "benchbase.jar", "-b", benchmark_parameter, "-c", BB_CONFIG_PATH, "--execute=true", "-d", CWD],
                           cwd=BENCHBASE_MYSQL_PATH)
 
 # cleanup
