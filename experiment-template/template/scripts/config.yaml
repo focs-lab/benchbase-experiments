@@ -1,0 +1,7 @@
+benchbase: /home/vagrant/benchbase
+mysql: /home/vagrant/mysql/mysql-server-mysql-8.0.39
+mysql-dist: [[MYSQL_DIST]]
+mysql-dist-no-tsan: dist-nt
+workspace: [[WORKSPACE]]
+seed: 1234
+benchmark: tpch

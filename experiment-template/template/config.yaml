@@ -1,0 +1,23 @@
+benchbase: /home/vagrant/benchbase
+mysql: /home/vagrant/mysql/mysql-server-mysql-8.0.39
+mysql-dist-no-tsan: dist-nt
+workspace: /home/vagrant/benchbase-experiments/workspace
+seed: 1234
+
+duration: 3600
+warmup: 120
+terminals: 3
+
+builds:
+- nt
+- t
+- e
+- st-03
+- st-3
+- st-10
+- su-03
+- su-3
+- su-10
+- so-03
+- so-3
+- so-10

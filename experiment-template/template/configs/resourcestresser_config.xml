@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<parameters>
+
+    <!-- Connection details -->
+    <type>MYSQL</type>
+    <driver>com.mysql.cj.jdbc.Driver</driver>
+    <url>jdbc:mysql://localhost:3306/benchbase?rewriteBatchedStatements=true&amp;allowPublicKeyRetrieval=True&amp;sslMode=DISABLED</url>
+    <username>admin</username>
+    <password>password</password>
+    <reconnectOnConnectionFailure>true</reconnectOnConnectionFailure>
+    <isolation>TRANSACTION_SERIALIZABLE</isolation>
+    <batchsize>128</batchsize>
+    <randomSeed>1234</randomSeed>
+
+    <!-- Scalefactor in ResourceStresser scales by *100 the number of employees -->
+    <scalefactor>1</scalefactor>
+
+    <!-- The workload -->
+    <terminals>[[TERMINALS]]</terminals>
+    <works>
+        <work>
+            <warmup>[[WARMUP]]</warmup>
+            <time>[[DURATION]]</time>
+            <rate>10000000</rate>
+            <weights>50,50</weights>
+        </work>
+    </works>
+
+    <!-- R/S Procedures declaration -->
+    <transactiontypes>
+        <transactiontype>
+            <name>CPU1</name>
+        </transactiontype>
+        <transactiontype>
+            <name>CPU2</name>
+        </transactiontype>
+    </transactiontypes>
+
+</parameters>
