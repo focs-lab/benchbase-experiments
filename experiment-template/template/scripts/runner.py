@@ -9,7 +9,7 @@ def write(proc: Popen, command):
     proc.stdin.flush()
 
 CWD = os.getcwd()
-CONFIG = yaml.load(open("config.yaml"), Loader=yaml.BaseLoader)
+CONFIG = yaml.safe_load(open("config.yaml"))
 
 MYSQL_DIST_PATH = os.path.join(CONFIG["mysql"], CONFIG["mysql-dist"])
 MYSQL_DIST_NO_TSAN_PATH = os.path.join(CONFIG["mysql"], CONFIG["mysql-dist-no-tsan"])
@@ -26,6 +26,7 @@ WORKSPACE = tempfile.TemporaryDirectory(dir=CONFIG["workspace"])
 MYSQL_DATA_PATH = os.path.join(WORKSPACE.name, "mysql-data")
 
 RNG_SEED = CONFIG["seed"]
+REPORT_BUGS = CONFIG["report-bugs"]
 DURATION = int(CONFIG["duration"])
 
 print("[+] Initializing MYSQL data.")
@@ -68,7 +69,7 @@ mysql_out = open(mysql_out_path, "w")
 
 print("[+] Starting MYSQL server (version under test) for benchmarking.")
 mysqld = Popen([MYSQLD_PATH, f"--basedir={MYSQL_DIST_PATH}", f"--datadir={MYSQL_DATA_PATH}"], stdout=mysql_out, stderr=STDOUT,
-               env={"TSAN_OPTIONS": f"ignore_noninstrumented_modules=0 report_bugs=1 external_symbolizer_path=/home/vagrant/llvm-project/build/bin/llvm-symbolizer detect_deadlocks=0 sampling_rng_seed={RNG_SEED}"})
+               env={"TSAN_OPTIONS": f"ignore_noninstrumented_modules=0 report_bugs={REPORT_BUGS} external_symbolizer_path=/home/vagrant/llvm-project/build/bin/llvm-symbolizer detect_deadlocks=0 sampling_rng_seed={RNG_SEED}"})
 while True:
    output = open(mysql_out_path).read()
    if "mysql.sock" in output.lower():

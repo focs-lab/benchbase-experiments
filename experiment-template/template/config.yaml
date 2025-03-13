@@ -3,6 +3,7 @@ mysql: /home/vagrant/mysql/mysql-server-mysql-8.0.39
 mysql-dist-no-tsan: dist-nt
 workspace: /home/vagrant/benchbase-experiments/workspace
 seed: 1234
+report-bugs: 0
 
 duration: 3600
 warmup: 120

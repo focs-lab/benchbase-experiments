@@ -36,7 +36,8 @@ BENCHMARKS = [
   "ycsb"
 ]
 
-TEMPLATE_PATH = Path("template")
+THIS_SCRIPT_DIR = Path(__file__).parent
+TEMPLATE_PATH = THIS_SCRIPT_DIR / "template"
 CONFIG = yaml.safe_load(open(TEMPLATE_PATH / "config.yaml"))
 BUILDS = CONFIG["builds"]
 

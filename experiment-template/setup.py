@@ -19,7 +19,8 @@ if DEST.exists():
     sys.exit(0)
 DEST.mkdir()
 
-TEMPLATE_PATH = Path("template")
+THIS_SCRIPT_DIR = Path(__file__).parent
+TEMPLATE_PATH = THIS_SCRIPT_DIR / "template"
 SCRIPTS_PATH = TEMPLATE_PATH / "scripts"
 CONFIGS_PATH = TEMPLATE_PATH / "configs"
 
@@ -61,7 +62,7 @@ for benchmark in BENCHMARKS:
     BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[WARMUP]]", str(WARMUP))
     BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[TPCH_WARMUP]]", str(WARMUP))
     BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[DURATION]]", str(DURATION))
-    BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[TPCH_DURATION]]", str(DURATION / 3))
+    BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[TPCH_DURATION]]", str(int(DURATION / 3)))
 
     CONFIG2 = CONFIG.copy()
     CONFIG2["benchmark"] = benchmark
