@@ -52,6 +52,7 @@ for benchmark in BENCHMARKS:
     BENCHMARK_PBS_SCRIPT = f"#PBS -N run-{benchmark}\n"
     BENCHMARK_PBS_SCRIPT += "#PBS -l walltime=24:00:00\n"
     BENCHMARK_PBS_SCRIPT += "#PBS -l select=1:ncpus=64:mem=128gb\n"
+    BENCHMARK_PBS_SCRIPT += "#PBS -l place=excl\n"
     BENCHMARK_PBS_SCRIPT += "#PBS -P 31010020\n"
     BENCHMARK_PBS_SCRIPT += "#PBS -j oe\n"
 
