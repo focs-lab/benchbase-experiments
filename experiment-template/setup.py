@@ -14,17 +14,16 @@ if len(sys.argv) < 2:
     sys.exit(0)
 
 DEST = Path(sys.argv[1])
-if DEST.exists():
-    print(f"{DEST} already exists. Aborting.")
+if not DEST.exists():
+    print(f"{DEST} does not exist. Aborting.")
     sys.exit(0)
-DEST.mkdir()
 
 THIS_SCRIPT_DIR = Path(__file__).parent
 TEMPLATE_PATH = THIS_SCRIPT_DIR / "template"
 SCRIPTS_PATH = TEMPLATE_PATH / "scripts"
 CONFIGS_PATH = TEMPLATE_PATH / "configs"
 
-CONFIG = yaml.safe_load(open(TEMPLATE_PATH / "config.yaml"))
+CONFIG = yaml.safe_load(open(DEST / "config.yaml"))
 
 BENCHMARKS = [
   "auctionmark",
