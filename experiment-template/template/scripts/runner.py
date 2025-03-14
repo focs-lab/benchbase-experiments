@@ -17,6 +17,8 @@ MYSQLD_NO_TSAN_PATH = os.path.join(MYSQL_DIST_NO_TSAN_PATH, "bin/mysqld")
 MYSQLD_PATH = os.path.join(MYSQL_DIST_PATH, "bin/mysqld")
 MYSQL_PATH = os.path.join(MYSQL_DIST_PATH, "bin/mysql")
 
+SYMBOLIZER_PATH = CONFIG["symbolizer"]
+
 BENCHBASE_PATH = CONFIG["benchbase"]
 BENCHBASE_MYSQL_PATH = os.path.join(BENCHBASE_PATH, "target", "benchbase-mysql")
 BENCHMARK_NAME = CONFIG["benchmark"]
@@ -70,7 +72,7 @@ mysql_out = open(mysql_out_path, "w")
 
 print("[+] Starting MYSQL server (version under test) for benchmarking.")
 mysqld = Popen([MYSQLD_PATH, f"--basedir={MYSQL_DIST_PATH}", f"--datadir={MYSQL_DATA_PATH}"], stdout=mysql_out, stderr=STDOUT,
-               env={"TSAN_OPTIONS": f"ignore_noninstrumented_modules=0 report_bugs={REPORT_BUGS} external_symbolizer_path=/home/vagrant/llvm-project/build/bin/llvm-symbolizer detect_deadlocks=0 sampling_rng_seed={RNG_SEED}"})
+               env={"TSAN_OPTIONS": f"ignore_noninstrumented_modules=0 report_bugs={REPORT_BUGS} external_symbolizer_path={SYMBOLIZER_PATH} detect_deadlocks=0 sampling_rng_seed={RNG_SEED}"})
 while True:
    output = open(mysql_out_path).read()
    if "mysql.sock" in output.lower():

@@ -2,6 +2,7 @@ benchbase: /home/vagrant/benchbase
 mysql: /home/vagrant/mysql/mysql-server-mysql-8.0.39
 mysql-dist-no-tsan: dist-nt
 workspace: /home/vagrant/benchbase-experiments/workspace
+symbolizer: /home/vagrant/llvm-project/build/bin/llvm-symbolizer
 seed: 1234
 report-bugs: 0
 
