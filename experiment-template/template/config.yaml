@@ -23,3 +23,20 @@ builds:
 - so-03
 - so-3
 - so-10
+
+benchmarks:
+- auctionmark
+- epinions
+- hyadapt
+- noop
+- resourcestresser
+- seats
+- sibench
+- smallbank
+- tatp
+- tpcc
+- tpch
+- twitter
+- voter
+- wikipedia
+- ycsb

@@ -25,24 +25,7 @@ CONFIGS_PATH = TEMPLATE_PATH / "configs"
 
 CONFIG = yaml.safe_load(open(DEST / "config.yaml"))
 
-BENCHMARKS = [
-  "auctionmark",
-  "epinions",
-  "hyadapt",
-  "noop",
-  "resourcestresser",
-  "seats",
-  "sibench",
-  "smallbank",
-  "tatp",
-  "tpcc",
-  "tpch",
-  "twitter",
-  "voter",
-  "wikipedia",
-  "ycsb"
-]
-
+BENCHMARKS = CONFIG["benchmarks"]
 BUILDS = CONFIG["builds"]
 
 for benchmark in BENCHMARKS:
