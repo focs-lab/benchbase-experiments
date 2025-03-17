@@ -18,9 +18,7 @@ if not DEST.exists():
     print(f"{DEST} does not exist. Aborting.")
     sys.exit(0)
 
-THIS_SCRIPT_DIR = Path(__file__).parent
-TEMPLATE_PATH = THIS_SCRIPT_DIR / "template"
-CONFIG = yaml.safe_load(open(TEMPLATE_PATH / "config.yaml"))
+CONFIG = yaml.safe_load(open(DEST / "config.yaml"))
 
 BENCHMARKS = CONFIG["benchmarks"]
 BUILDS = CONFIG["builds"]

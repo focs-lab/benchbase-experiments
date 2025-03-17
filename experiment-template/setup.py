@@ -28,31 +28,58 @@ CONFIG = yaml.safe_load(open(DEST / "config.yaml"))
 BENCHMARKS = CONFIG["benchmarks"]
 BUILDS = CONFIG["builds"]
 
+WARMUP_RUN_DURATION = CONFIG["warmup-run-duration"]
+WARMUP_RUN_MYSQL_BUILD = CONFIG["warmup-run-mysql-build"]
+
 for benchmark in BENCHMARKS:
+    # Setup the folder
     BENCHMARK_PATH = DEST / benchmark
     os.system(f"rm -rf {BENCHMARK_PATH}")
     BENCHMARK_PATH.mkdir()
 
-    BENCHMARK_CONFIG_PATH = CONFIGS_PATH / f"{benchmark}_config.xml"
-    BENCHMARK_CONFIG = open(BENCHMARK_CONFIG_PATH, "r").read()
+    # The common stuff
+    CONFIG2 = CONFIG.copy()
+    CONFIG2["benchmark"] = benchmark
 
     TERMINALS = CONFIG["terminals"]
     WARMUP = CONFIG["warmup"]
     DURATION = CONFIG["duration"]
 
+    BENCHMARK_CONFIG_PATH = CONFIGS_PATH / f"{benchmark}_config.xml"
+    BENCHMARK_CONFIG = open(BENCHMARK_CONFIG_PATH, "r").read()
+
+    BENCHMARK_RUN_SCRIPT = "#!/bin/sh\n"
+
+    # Special warmup run
+    WARMUP_RUN_PATH = BENCHMARK_PATH / "warmup"
+    os.system(f"rm -rf {WARMUP_RUN_PATH}")
+    shutil.copytree(SCRIPTS_PATH, WARMUP_RUN_PATH)
+    WARMUP_BENCHMARK_CONFIG = BENCHMARK_CONFIG
+    WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[TERMINALS]]", str(TERMINALS))
+    WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[WARMUP]]", str(0))
+    WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[TPCH_WARMUP]]", str(0))
+    WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[DURATION]]", str(WARMUP_RUN_DURATION))
+    WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[TPCH_DURATION]]", str(int(WARMUP_RUN_DURATION / 3)))
+
+    WARMUP_BENCHMARK_CONFIG_PATH = WARMUP_RUN_PATH / f"{benchmark}_config.xml"
+    open(WARMUP_BENCHMARK_CONFIG_PATH, "w").write(WARMUP_BENCHMARK_CONFIG)
+
+    WARMUP_CONFIG_PATH = WARMUP_RUN_PATH / f"config.yaml"
+    CONFIG2["mysql-dist"] = f"dist-{WARMUP_RUN_MYSQL_BUILD}"
+    yaml.safe_dump(CONFIG2, open(WARMUP_CONFIG_PATH, "w"))
+
+    BENCHMARK_RUN_SCRIPT += f"(cd warmup; python3 runner.py; rm *raw*)\n"
+
+    # For the actual experiments
     BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[TERMINALS]]", str(TERMINALS))
     BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[WARMUP]]", str(WARMUP))
     BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[TPCH_WARMUP]]", str(WARMUP))
     BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[DURATION]]", str(DURATION))
     BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[TPCH_DURATION]]", str(int(DURATION / 3)))
 
-    CONFIG2 = CONFIG.copy()
-    CONFIG2["benchmark"] = benchmark
-
-    BENCHMARK_RUN_SCRIPT = "#!/bin/sh\n"
-
     for build in BUILDS:
         EXPERIMENT_PATH = BENCHMARK_PATH / build
+        os.system(f"rm -rf {EXPERIMENT_PATH}")
         shutil.copytree(SCRIPTS_PATH, EXPERIMENT_PATH)
 
         EXPERIMENT_BENCHMARK_CONFIG_PATH = EXPERIMENT_PATH / f"{benchmark}_config.xml"
