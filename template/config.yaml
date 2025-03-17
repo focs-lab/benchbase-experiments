@@ -10,6 +10,9 @@ duration: 3600
 warmup: 120
 terminals: 3
 
+warmup-run-duration: 60
+warmup-run-mysql-build: nt
+
 builds:
 - nt
 - t
