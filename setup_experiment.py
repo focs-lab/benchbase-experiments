@@ -31,6 +31,8 @@ BUILDS = CONFIG["builds"]
 WARMUP_RUN_DURATION = CONFIG["warmup-run-duration"]
 WARMUP_RUN_MYSQL_BUILD = CONFIG["warmup-run-mysql-build"]
 
+RUN_ALL_SCRIPT = "#!/bin/sh\n"
+
 for benchmark in BENCHMARKS:
     # Setup the folder
     BENCHMARK_PATH = DEST / benchmark
@@ -51,24 +53,25 @@ for benchmark in BENCHMARKS:
     BENCHMARK_RUN_SCRIPT = "#!/bin/sh\n"
 
     # Special warmup run
-    WARMUP_RUN_PATH = BENCHMARK_PATH / "warmup"
-    os.system(f"rm -rf {WARMUP_RUN_PATH}")
-    shutil.copytree(SCRIPTS_PATH, WARMUP_RUN_PATH)
-    WARMUP_BENCHMARK_CONFIG = BENCHMARK_CONFIG
-    WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[TERMINALS]]", str(TERMINALS))
-    WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[WARMUP]]", str(0))
-    WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[TPCH_WARMUP]]", str(0))
-    WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[DURATION]]", str(WARMUP_RUN_DURATION))
-    WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[TPCH_DURATION]]", str(int(WARMUP_RUN_DURATION / 3)))
+    if WARMUP_RUN_DURATION != 0:
+        WARMUP_RUN_PATH = BENCHMARK_PATH / "warmup"
+        os.system(f"rm -rf {WARMUP_RUN_PATH}")
+        shutil.copytree(SCRIPTS_PATH, WARMUP_RUN_PATH)
+        WARMUP_BENCHMARK_CONFIG = BENCHMARK_CONFIG
+        WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[TERMINALS]]", str(TERMINALS))
+        WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[WARMUP]]", str(0))
+        WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[TPCH_WARMUP]]", str(0))
+        WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[DURATION]]", str(WARMUP_RUN_DURATION))
+        WARMUP_BENCHMARK_CONFIG = WARMUP_BENCHMARK_CONFIG.replace("[[TPCH_DURATION]]", str(int(WARMUP_RUN_DURATION / 3)))
 
-    WARMUP_BENCHMARK_CONFIG_PATH = WARMUP_RUN_PATH / f"{benchmark}_config.xml"
-    open(WARMUP_BENCHMARK_CONFIG_PATH, "w").write(WARMUP_BENCHMARK_CONFIG)
+        WARMUP_BENCHMARK_CONFIG_PATH = WARMUP_RUN_PATH / f"{benchmark}_config.xml"
+        open(WARMUP_BENCHMARK_CONFIG_PATH, "w").write(WARMUP_BENCHMARK_CONFIG)
 
-    WARMUP_CONFIG_PATH = WARMUP_RUN_PATH / f"config.yaml"
-    CONFIG2["mysql-dist"] = f"dist-{WARMUP_RUN_MYSQL_BUILD}"
-    yaml.safe_dump(CONFIG2, open(WARMUP_CONFIG_PATH, "w"))
+        WARMUP_CONFIG_PATH = WARMUP_RUN_PATH / f"config.yaml"
+        CONFIG2["mysql-dist"] = f"dist-{WARMUP_RUN_MYSQL_BUILD}"
+        yaml.safe_dump(CONFIG2, open(WARMUP_CONFIG_PATH, "w"))
 
-    BENCHMARK_RUN_SCRIPT += f"(cd warmup; python3 runner.py; rm *raw*)\n"
+        BENCHMARK_RUN_SCRIPT += f"(cd warmup; python3 runner.py; rm *raw*)\n"
 
     # For the actual experiments
     BENCHMARK_CONFIG = BENCHMARK_CONFIG.replace("[[TERMINALS]]", str(TERMINALS))
@@ -94,5 +97,9 @@ for benchmark in BENCHMARKS:
     BENCHMARK_RUN_SCRIPT_PATH = BENCHMARK_PATH / "run.sh"
     open(BENCHMARK_RUN_SCRIPT_PATH, "w").write(BENCHMARK_RUN_SCRIPT)
     os.system(f"chmod +x {BENCHMARK_RUN_SCRIPT_PATH}")
-    
 
+    RUN_ALL_SCRIPT += f"(cd {benchmark}; ./run.sh)\n"
+
+RUN_ALL_SCRIPT_PATH = DEST / "run.sh"
+open(RUN_ALL_SCRIPT_PATH, "w").write(RUN_ALL_SCRIPT)
+os.system(f"chmod +x {RUN_ALL_SCRIPT_PATH}")
