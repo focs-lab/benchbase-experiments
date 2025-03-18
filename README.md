@@ -19,7 +19,7 @@ See the build instructions for [mysql](others/mysql/README.md) and [benchbase](o
 ## Setup experiments
 
 To set up an experiment, first create a folder that will contain all the experiment files.
-E.g.
+For example,
 
 ```
 mkdir experiment
